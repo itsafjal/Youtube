@@ -1,0 +1,52 @@
+import oauth2
+import time
+import urllib2
+import json
+import requests
+
+url= "https://www.googleapis.com/youtube/v3/commentThreads"
+params=dict()
+
+
+api_key='API KEY HERE'
+videoId='wPxqcq6Byq0'
+
+params["part"] = "snippet"      
+params["maxResults"] = "100"        
+params["textFormat"] = "plainText"  
+params["videoId"] = videoId     
+
+params["key"] = api_key
+url=url+'?'
+i=0
+for key,value in params.iteritems():
+	if i==0:
+		url=url+key+'='+value
+		i=i+1
+	else:
+		url=url+'&'+key+'='+value
+print url
+resp=requests.get(url)
+data = json.loads(resp.content)
+
+
+for item in data['items']:
+	cnt = 0
+	comment =  item['snippet']
+	for key in comment.keys():
+		if  str(type(comment[key])) == str(dict):
+			v = comment[key]
+			for k in v.keys():
+				
+				if  str(type(v[k])) == str(dict):
+					for key1 in v['snippet']:
+
+						comment_ytub = v['snippet']['textDisplay']
+						if cnt==0:
+							print comment_ytub
+							cnt = cnt + 1
+						else:
+							cnt = cnt + 1					
+
+
+

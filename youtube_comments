@@ -25,7 +25,7 @@ for key,value in params.iteritems():
 		i=i+1
 	else:
 		url=url+'&'+key+'='+value
-print url
+
 resp=requests.get(url)
 data = json.loads(resp.content)
 
